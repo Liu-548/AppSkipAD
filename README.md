@@ -6,14 +6,17 @@ App Android tự bấm nút **"Bỏ qua quảng cáo"** trên YouTube và các a
 1. Tải `app-release.apk` ở mục **Releases** và cài.
 2. Android 13+: vào *Thông tin ứng dụng SkipQC → ⋮ → Cho phép cài đặt bị hạn chế*.
 3. *Cài đặt → Trợ năng → SkipQC* → bật.
-4. Mở SkipQC, xử lý các dòng ✗ trong khối trạng thái (Pin, Thông báo, Tự khởi động).
-5. Bấm **"Thêm nút vào thanh kéo xuống"**, sau đó bật/tắt ngay từ thanh kéo.
+4. Mở SkipQC, cho phép gửi thông báo (để có icon trạng thái), rồi xử lý các dòng ✗ trong khối trạng thái (Pin, Tự khởi động).
+5. Chọn ứng dụng áp dụng ở mục **Ứng dụng áp dụng** (YouTube nằm đầu danh sách, mặc định đã chọn).
+6. Bấm **"Thêm nút vào thanh kéo xuống"**. Nếu máy không hiện hộp thoại: kéo thanh thông báo xuống → biểu tượng chỉnh sửa → kéo ô **SkipQC** vào.
 
-**Realme:** Quản lý pin ứng dụng → SkipQC → cho phép chạy nền + tự khởi chạy.
+**Realme:** Quản lý pin ứng dụng → SkipQC → cho phép chạy nền. Máy Realme không gửi tín hiệu khởi động cho app cài ngoài, nên nếu muốn dịch vụ sống lại sau khi khởi động máy thì bật thêm *Tự khởi động* cho SkipQC.
 **Redmi:** Tự khởi động → bật SkipQC; Tiết kiệm pin → Không giới hạn; khóa app trong đa nhiệm.
 
 ## Cách dùng
-Mặc định app **tắt** sau mỗi lần khởi động máy; bật bằng ô SkipQC trên thanh kéo xuống. Tùy chọn thêm: *Tự bật khi khởi động máy*, *Tự bật khi mở ứng dụng đã chọn*.
+Bật/tắt bằng ô **SkipQC** trên thanh kéo xuống, bằng công tắc trong app, hoặc nút **Tắt** trên thông báo. Khởi động lại máy thì app luôn ở trạng thái **tắt**.
+
+Có một tuỳ chọn: **Tự bật khi mở ứng dụng đã chọn** — mở YouTube là app tự bật, rời YouTube 10 phút là tự tắt. Tắt tay trong lúc đang xem thì app tôn trọng, chỉ bật lại khi bạn thoát hẳn rồi mở lại.
 
 ## Phát triển
 Dự án vibe code: xem `CLAUDE.md` và `docs/`. Khóa ký APK không nằm trong repo (giữ ở máy chủ dự án + GitHub Secrets) — chỉ cài APK lấy từ repo này.

@@ -28,7 +28,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - [x] M5.2 Final `MainActivity` layout (R-30, R-31, R-22). Remove the temporary M1 button (debug dump stays, debug-only).
 
 ## M6 Release
-- [ ] M6.1 Release build config check (R-73); README install section verified against the real UI.
+- [x] M6.1 Release build config check (R-73); README install section verified against the real UI.
 - [ ] M6.2 Tag `v0.1.0`; CI attaches release APK to the GitHub Release.
 
 ## Log
@@ -50,3 +50,5 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · Bo tinh nang tu bat khi khoi dong may (chu du an yeu cau). Da go BootReceiver, quyen RECEIVE_BOOT_COMPLETED va o tick tuong ung; SPEC chuyen muc nay xuong phan "Later". Van giu: khoi dong lai may thi app luon TAT — service tu so sanh thoi diem boot, da thu that tren RMX3370 (truoc reboot bat, sau reboot tat) va khong can quyen nao.
 - 2026-09-19 · M5.2 · Man hinh chinh that (R-30/R-31/R-22): 4 dong tinh trang bam duoc, cong tac, o tick tu bat, danh sach app co icon (app co luat len dau), nut them o vao thanh keo xuong, xin quyen thong bao. Checkbox app chi phan ung khi nguoi dung cham (setOnCheckedChangeListener no ca khi code set -> co the xoa trang danh sach).
 - 2026-09-19 · Thu tren RMX3370 · Che do toi OK; tick "Tu bat khi mo ung dung da chon" -> mo YouTube thi app tu bat (active+autoActivated) va bo qua quang cao; thong bao trang thai hien dung (im lang, ghim, co nut Tat).
+- 2026-09-19 · M6.1 · Ban release: 50 KB, dung 2 quyen, khong co provider debug, ky cung khoa voi ban debug nen cai de duoc (da thu tren may). README viet lai theo man hinh that (bo muc tu bat khi khoi dong, them buoc chon app va cach keo o vao thanh keo xuong).
+- 2026-09-19 · Canh bao khi test · Lenh `adb shell monkey ... 1` con ban kem MOT su kien cham ngau nhien — chinh no bam vao banner quang cao trong YouTube va mo trang sym.com.vn, khong phai app bam nham. Dung `am start -n <pkg>/<activity>` de mo app khi test. Da do lai co log: app chi bam dung node skip_ad_button (clickable, visible, dung toa do).
