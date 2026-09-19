@@ -71,18 +71,23 @@ class MainActivity : Activity() {
     private fun buildStatus() {
         status.removeAllViews()
         Oem.checks(this).forEach { check ->
-            status.addView(
-                TextView(this).apply {
-                    val mark = when (check.ok) {
-                        true -> "✓"
-                        false -> "✗"
-                        null -> "?"
-                    }
-                    text = "$mark ${check.label}\n${check.detail}"
-                    setPadding(0, 24, 0, 24)
-                    setOnClickListener { check.open(this@MainActivity) }
-                }
-            )
+            val row = layoutInflater.inflate(R.layout.row_health, status, false)
+            row.findViewById<TextView>(R.id.mark).apply {
+                text = if (check.ok == null) "?" else if (check.ok) "✓" else "✗"
+                setTextColor(
+                    getColor(
+                        when (check.ok) {
+                            true -> R.color.ok
+                            false -> R.color.bad
+                            null -> R.color.unknown
+                        }
+                    )
+                )
+            }
+            row.findViewById<TextView>(R.id.label).text = check.label
+            row.findViewById<TextView>(R.id.detail).text = check.detail
+            row.setOnClickListener { check.open(this) }
+            status.addView(row)
         }
         findViewById<TextView>(R.id.restricted_hint).apply {
             visibility = if (Oem.needsRestrictedSettingsHint(this@MainActivity)) View.VISIBLE else View.GONE
@@ -103,22 +108,20 @@ class MainActivity : Activity() {
             .map { Triple(it.packageName, packageManager.getApplicationLabel(it).toString(), it) }
             .sortedWith(compareBy({ rules?.forPackage(it.first) == null }, { it.second.lowercase() }))
             .forEach { (pkg, label, info) ->
-                appList.addView(
-                    CheckBox(this).apply {
-                        text = label
-                        isChecked = pkg in prefs.watched
-                        compoundDrawablePadding = 24
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(
-                            packageManager.getApplicationIcon(info), null, null, null,
-                        )
-                        // A click is always the user: setOnCheckedChangeListener would also
-                        // fire when this code sets the box, and could wipe the saved list.
-                        setOnClickListener {
-                            prefs.watched =
-                                if (isChecked) prefs.watched + pkg else prefs.watched - pkg
-                        }
-                    }
-                )
+                val row = layoutInflater.inflate(R.layout.row_app, appList, false) as CheckBox
+                row.text = label
+                row.isChecked = pkg in prefs.watched
+                // Launcher icons are far bigger than this row: pin them to the text size.
+                val icon = packageManager.getApplicationIcon(info)
+                val size = (32 * resources.displayMetrics.density).toInt()
+                icon.setBounds(0, 0, size, size)
+                row.setCompoundDrawablesRelative(icon, null, null, null)
+                // A click is always the user: setOnCheckedChangeListener would also fire
+                // when this code sets the box, and could wipe the saved list.
+                row.setOnClickListener {
+                    prefs.watched = if (row.isChecked) prefs.watched + pkg else prefs.watched - pkg
+                }
+                appList.addView(row)
             }
     }
 

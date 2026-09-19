@@ -46,10 +46,9 @@ State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoWithApps: Bool
   1. Status block (R-41): lines "Trợ năng", "Pin", "Thông báo", and on Realme/Redmi "Tự khởi động". Each line shows ✓/✗ and is tappable → opens the right settings screen.
   2. Switch "Bỏ qua quảng cáo" (= `active`, manual).
   3. Checkbox "Tự bật khi mở ứng dụng đã chọn" (R-12).
-  4. Section "Ứng dụng áp dụng": checkbox list of installed launchable apps (label + icon), apps with a rule first, then alphabetical.
-  5. Button R-22.
-  6. Debug builds only: button "Xuất cây giao diện (debug)" (R-80).
-- R-31 All UI strings Vietnamese in `res/values/strings.xml`. Follows system dark mode.
+  4. Button R-22, and in debug builds "Xuất cây giao diện (debug)" (R-80). Both sit above the app list: the list is as long as the phone has apps, and buttons under it are unreachable.
+  5. Section "Ứng dụng áp dụng": checkbox list of installed launchable apps (label + icon), apps with a rule first, then alphabetical. Last, because it scrolls forever.
+- R-31 All UI strings Vietnamese in `res/values/strings.xml`. One dark theme, always (owner asked on 2026-09-19): `Theme.DeviceDefault.NoActionBar` with our own palette in `res/values/colors.xml`, no light variant and no title bar — the screen carries its own heading.
 
 ## 6. OEM & health
 - R-40 Brand detection by `Build.MANUFACTURER` (lowercase): `xiaomi|redmi|poco` ⇒ XIAOMI; `realme|oppo|oneplus` ⇒ OPLUS; else OTHER.
