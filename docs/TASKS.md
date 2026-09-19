@@ -13,7 +13,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 
 ## M2 Skipping
 - [x] M2.1 `Rules.kt` + `RuleEngine.kt` over a `NodeView` interface (R-02, R-50). Unit tests: viewId hit, exact text hit, substring rejected, disabled/invisible rejected, clickable-ancestor walk.
-- [ ] M2.2 Wire into `SkipService` with cooldown/debounce (R-01, R-03, R-70, R-71). Active hardcoded true for this task.
+- [x] M2.2 Wire into `SkipService` with cooldown/debounce (R-01, R-03, R-70, R-71). Active hardcoded true for this task.
 
 ## M3 Modes
 - [ ] M3.1 `Prefs.kt` + `ModeLogic.kt` (R-10..R-14) with unit tests for every R-12 bullet.
@@ -41,3 +41,4 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · M1.3 · Dump that tren Realme RMX3370 (Android 13) khi quang cao YouTube dang chay: `skip_ad_button` (FrameLayout, clickable=true) > `skip_ad_button_container` (desc "Bo qua quang cao") > `skip_ad_button_text` (text "Bo qua"). rules.json dung san, chi set verified=true.
 - 2026-09-19 · Sua loi M1.2 · Giu tham chieu node de dump sau la vo dung (roi app la node chet, khong con node con). Nay service render cay ra text ngay luc co su kien (debug, toi da 1 lan/giay) va chi nhan root dung goi cua app duoc theo doi.
 - 2026-09-19 · M2.1 · Rules.kt + RuleEngine.kt tren interface NodeView/NodeFinder (khong import android.*); 10 unit test xanh: trung viewId, trung text/desc chinh xac, loai "Skip in 5", loai node an/disabled, di len toi da 3 cap tim node bam duoc.
+- 2026-09-19 · M2.2 · Noi RuleEngine vao service: debounce 100ms + cooldown 1500ms moi goi, bam node hoac tap giua vung neu khong bam duoc. Thu that tren RMX3370: quang cao YouTube bi bo qua tu dong. Luu y khi do: `uiautomator dump` lam treo tam thoi moi dich vu tro nang khac nen dung no de kiem tra se ra ket qua sai.
