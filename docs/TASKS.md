@@ -20,8 +20,8 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - [x] M3.2 `BootReceiver` (R-11); service uses ModeLogic + idle handler (R-72); watched list from Prefs, live `packageNames` update (R-04, R-05).
 
 ## M4 Tile, status icon, logo
-- [ ] M4.1 `ic_logo.xml` + adaptive launcher icon (R-23).
-- [ ] M4.2 `SkipTile` (R-21) and `StatusNotifier` (R-20), both driven by `Prefs.setActive`.
+- [x] M4.1 `ic_logo.xml` + adaptive launcher icon (R-23).
+- [x] M4.2 `SkipTile` (R-21) and `StatusNotifier` (R-20), both driven by `Prefs.setActive`.
 
 ## M5 Main screen
 - [ ] M5.1 `Oem.kt` health checks + shortcuts (R-40..R-43).
@@ -44,3 +44,5 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · M2.2 · Noi RuleEngine vao service: debounce 100ms + cooldown 1500ms moi goi, bam node hoac tap giua vung neu khong bam duoc. Thu that tren RMX3370: quang cao YouTube bi bo qua tu dong. Luu y khi do: `uiautomator dump` lam treo tam thoi moi dich vu tro nang khac nen dung no de kiem tra se ra ket qua sai.
 - 2026-09-19 · M3.1 · ModeLogic thuan (ModeState + 4 input, R-10..R-12) va Prefs la noi duy nhat ghi trang thai (R-14). 12 unit test phu tung gach dau dong R-12; tong 22 test xanh. Chua noi vao service/boot — do la M3.2.
 - 2026-09-19 · M3.2 · BootReceiver + service chay qua ModeLogic (R-70 thoat truoc khi cham node), danh sach app lay tu Prefs va cap nhat packageNames ngay khi doi (R-04/R-05), idle tick 60s chi khi dang tu bat (R-72). Prefs khong ghi dia cho lastWatchedEventAt (moi su kien deu doi). Chua thu tren may: cap da rut, se kiem tra lai khi cam vao.
+- 2026-09-19 · M4.1 · ic_logo.xml (glyph skip-next) + icon launcher thich ung dung lai chinh no qua <inset>, nen ca app chi co mot hinh. Da xem tren may that: nen do #D32F2F, glyph trang, ro.
+- 2026-09-19 · M4.2 · SkipTile (o thanh keo xuong) + StatusNotifier (icon trang thai, kem nut "Tat"), ca hai deu doc/ghi qua Prefs (R-14). Lint bat loi dung startActivityAndCollapse(Intent) — phai giu vi ban PendingIntent chi co tu API 34, da suppress dung dong do. Chua bam thu tren may: cap rut giua chung.

@@ -2,12 +2,15 @@ package com.skipqc
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.graphics.Path
 import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.provider.Settings
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 
@@ -29,6 +32,9 @@ class SkipService : AccessibilityService() {
         applyWatched()
         handler.removeCallbacks(idleTick)
         if (state.active && state.autoActivated) handler.postDelayed(idleTick, IDLE_TICK_MS)
+        // R-14: one place tells the tile and the status icon about every change.
+        StatusNotifier.update(this, state.active)
+        SkipTile.refresh(this)
     }
 
     override fun onServiceConnected() {
@@ -111,6 +117,8 @@ class SkipService : AccessibilityService() {
 
     private fun stop() {
         isRunning = false
+        StatusNotifier.update(this, false) // R-20: no icon without a running service.
+        SkipTile.refresh(this)
         handler.removeCallbacks(idleTick)
         if (::prefs.isInitialized) prefs.removeListener(onStateChanged)
     }
@@ -126,6 +134,16 @@ class SkipService : AccessibilityService() {
         private const val CAPTURE_INTERVAL_MS = 1000L
 
         private var lastCapture = 0L
+
+        /** R-41: switched on in system Accessibility settings (which is not the same as running). */
+        fun isEnabled(context: Context): Boolean {
+            val mine = ComponentName(context, SkipService::class.java).flattenToString()
+            val enabled = Settings.Secure.getString(
+                context.contentResolver,
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+            ).orEmpty()
+            return enabled.split(':').any { it.equals(mine, ignoreCase = true) }
+        }
 
         // R-41: "enabled but not running" health check reads this.
         @Volatile
