@@ -16,7 +16,7 @@ App Android tự bấm nút **"Bỏ qua quảng cáo"** trên YouTube và các a
 Mặc định app **tắt** sau mỗi lần khởi động máy; bật bằng ô SkipQC trên thanh kéo xuống. Tùy chọn thêm: *Tự bật khi khởi động máy*, *Tự bật khi mở ứng dụng đã chọn*.
 
 ## Phát triển
-Dự án vibe code: xem `CLAUDE.md` và `docs/`. Khóa ký APK trong `keystore/` được commit có chủ đích (dùng cá nhân) — chỉ cài APK từ repo này.
+Dự án vibe code: xem `CLAUDE.md` và `docs/`. Khóa ký APK không nằm trong repo (giữ ở máy chủ dự án + GitHub Secrets) — chỉ cài APK lấy từ repo này.
 
 ## License
 MIT — xem `LICENSE`.

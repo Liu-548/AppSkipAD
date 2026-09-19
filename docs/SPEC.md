@@ -85,7 +85,7 @@ State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoOnBoot: Boolea
 - R-70 First line of `onAccessibilityEvent`: if not active (after ModeLogic) ⇒ return, before touching any node.
 - R-71 Tree walks bounded: depth ≤ 30, ≤ 500 nodes. Null `rootInActiveWindow` ⇒ return.
 - R-72 Idle check (R-12 10-min rule) uses one `Handler.postDelayed` every 60 s only while auto-activated; no polling otherwise.
-- R-73 Release: `isMinifyEnabled=true`, `isShrinkResources=true`. Debug and release share `keystore/skipqc.keystore` so APKs update over each other.
+- R-73 Release: `isMinifyEnabled=true`, `isShrinkResources=true`. Debug and release share `keystore/skipqc.keystore` so APKs update over each other. The key is never committed: file is gitignored, password lives in `local.properties` (`skipqc.keystorePassword`) locally and in GitHub Secrets (`KEYSTORE_B64`, `KEYSTORE_PASSWORD`) for CI.
 
 ## 10. Debug tooling
 - R-80 Debug builds: button exports the current accessibility tree of the most recent watched-app window (class, viewId, text, contentDescription, clickable, enabled, bounds; depth-indented) to `getExternalFilesDir("dumps")/dump-<time>.txt`, then opens the share sheet. Service keeps the last root snapshot reference only in debug builds. Used to confirm rule IDs.

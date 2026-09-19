@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -14,26 +16,33 @@ android {
         versionName = "0.1.0"
     }
 
-    // R-73: one shared key for debug + release so APKs install over each other.
-    // Personal project: key is committed on purpose.
-    signingConfigs {
-        create("shared") {
-            storeFile = rootProject.file("keystore/skipqc.keystore")
-            storePassword = "android"
+    // R-73: debug + release share one key so APKs install over each other.
+    // The key is NOT in git: file in keystore/ (gitignored), password in
+    // local.properties (skipqc.keystorePassword) or env SKIPQC_KEYSTORE_PASSWORD (CI).
+    val keystoreFile = rootProject.file("keystore/skipqc.keystore")
+    val keystorePassword = System.getenv("SKIPQC_KEYSTORE_PASSWORD")
+        ?: Properties().apply {
+            rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+        }.getProperty("skipqc.keystorePassword")
+
+    val sharedSigning = if (keystoreFile.exists() && keystorePassword != null) {
+        signingConfigs.create("shared") {
+            storeFile = keystoreFile
+            storePassword = keystorePassword
             keyAlias = "skipqc"
-            keyPassword = "android"
+            keyPassword = keystorePassword
         }
-    }
+    } else null
 
     buildTypes {
         debug {
-            signingConfig = signingConfigs.getByName("shared")
+            sharedSigning?.let { signingConfig = it }
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("shared")
+            sharedSigning?.let { signingConfig = it }
         }
     }
 
