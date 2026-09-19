@@ -3,7 +3,7 @@
 Each task ends with: build green + unit tests green + owner check in `docs/REVIEW.md` (same M-number).
 
 ## M0 Build baseline
-- [ ] M0.1 Verify scaffold builds as-is (`assembleDebug`, `lintDebug`). Versions were set from AGP 9.3 release notes (AGP 9.3.3, Gradle 9.5.0, JDK 17, built-in Kotlin) but never compiled. Fix only what breaks; log changes. Ensure `gradlew` has the exec bit in git (`git update-index --chmod=+x gradlew`).
+- [x] M0.1 Verify scaffold builds as-is (`assembleDebug`, `lintDebug`). Versions were set from AGP 9.3 release notes (AGP 9.3.3, Gradle 9.5.0, JDK 17, built-in Kotlin) but never compiled. Fix only what breaks; log changes. Ensure `gradlew` has the exec bit in git (`git update-index --chmod=+x gradlew`).
 - [ ] M0.2 Push; confirm GitHub Actions is green and the permission check step passes.
 
 ## M1 Service + debug dump (goal: learn the real skip-button IDs)
@@ -33,3 +33,4 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 
 ## Log
 <!-- one line per finished task: date · task · note -->
+- 2026-09-19 · M0.1 · Build xanh voi AGP 9.3.3 / Gradle 9.5.0 / JDK 25; khong doi version. Lint: them `AppTheme` (`values/` = Theme.DeviceDefault, `values-v29/` = .DayNight) vi DayNight chi co tu API 29 > minSdk 26. `gradlew` da co exec bit.
