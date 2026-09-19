@@ -12,7 +12,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - [x] M1.3 STOP: ask owner to install, play a YouTube ad, press dump when "Skip"/"Bỏ qua" is visible, and send the file. Update `rules.json` from the dump, set `verified: true`.
 
 ## M2 Skipping
-- [ ] M2.1 `Rules.kt` + `RuleEngine.kt` over a `NodeView` interface (R-02, R-50). Unit tests: viewId hit, exact text hit, substring rejected, disabled/invisible rejected, clickable-ancestor walk.
+- [x] M2.1 `Rules.kt` + `RuleEngine.kt` over a `NodeView` interface (R-02, R-50). Unit tests: viewId hit, exact text hit, substring rejected, disabled/invisible rejected, clickable-ancestor walk.
 - [ ] M2.2 Wire into `SkipService` with cooldown/debounce (R-01, R-03, R-70, R-71). Active hardcoded true for this task.
 
 ## M3 Modes
@@ -40,3 +40,4 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · M1.2 · DebugDump (do sau <=30, <=500 node theo R-71) + nut debug tam trong MainActivity; chia se file qua DumpProvider nam trong source set `debug` (khong dung AndroidX, ban release khong co provider lan quyen nao them).
 - 2026-09-19 · M1.3 · Dump that tren Realme RMX3370 (Android 13) khi quang cao YouTube dang chay: `skip_ad_button` (FrameLayout, clickable=true) > `skip_ad_button_container` (desc "Bo qua quang cao") > `skip_ad_button_text` (text "Bo qua"). rules.json dung san, chi set verified=true.
 - 2026-09-19 · Sua loi M1.2 · Giu tham chieu node de dump sau la vo dung (roi app la node chet, khong con node con). Nay service render cay ra text ngay luc co su kien (debug, toi da 1 lan/giay) va chi nhan root dung goi cua app duoc theo doi.
+- 2026-09-19 · M2.1 · Rules.kt + RuleEngine.kt tren interface NodeView/NodeFinder (khong import android.*); 10 unit test xanh: trung viewId, trung text/desc chinh xac, loai "Skip in 5", loai node an/disabled, di len toi da 3 cap tim node bam duoc.
