@@ -1,0 +1,12 @@
+# H7: bump only if the build is broken; log the reason in docs/TASKS.md
+[versions]
+agp = "9.3.3"        # needs Gradle >= 9.5.0, JDK 17; Kotlin is built into AGP 9
+junit = "4.13.2"     # test-only
+orgjson = "20240303" # test-only (android.jar stubs org.json on the JVM)
+
+[libraries]
+junit = { module = "junit:junit", version.ref = "junit" }
+orgjson = { module = "org.json:json", version.ref = "orgjson" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }

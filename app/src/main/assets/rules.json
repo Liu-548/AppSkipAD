@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "generic": {
+    "texts": ["Skip", "Skip ad", "Skip ads", "Bỏ qua", "Bỏ qua quảng cáo"]
+  },
+  "apps": [
+    {
+      "package": "com.google.android.youtube",
+      "label": "YouTube",
+      "verified": false,
+      "viewIds": ["skip_ad_button", "skip_ad_button_container"],
+      "texts": ["Skip", "Skip ad", "Skip ads", "Bỏ qua", "Bỏ qua quảng cáo"]
+    }
+  ]
+}
