@@ -28,6 +28,15 @@
             </intent-filter>
         </activity>
 
+        <!-- R-11 -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <!-- R-60 -->
         <service
             android:name=".SkipService"

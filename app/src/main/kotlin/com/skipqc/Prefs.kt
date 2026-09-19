@@ -21,6 +21,11 @@ class Prefs private constructor(context: Context) {
             notifyListeners()
         }
 
+    /** R-05: only ever fills in a default when the owner has never chosen a list. */
+    fun initWatchedIfUnset(default: Set<String>) {
+        if (!sp.contains(KEY_WATCHED)) watched = default
+    }
+
     fun addListener(listener: (ModeState) -> Unit) {
         listeners += listener
         listener(state)
@@ -42,7 +47,10 @@ class Prefs private constructor(context: Context) {
 
     private fun write(new: ModeState) {
         if (new == state) return
+        // lastWatchedEventAt moves on every single event: keep it in memory, off the disk.
+        val durableChange = new.copy(lastWatchedEventAt = 0L) != state.copy(lastWatchedEventAt = 0L)
         state = new
+        if (!durableChange) return
         sp.edit()
             .putBoolean(KEY_ACTIVE, new.active)
             .putBoolean(KEY_OFF_MANUAL, new.offReason == OffReason.MANUAL)

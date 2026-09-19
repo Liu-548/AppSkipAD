@@ -5,22 +5,39 @@ import android.accessibilityservice.GestureDescription
 import android.content.Intent
 import android.graphics.Path
 import android.graphics.Rect
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 
-// Events -> RuleEngine -> click (R-01..R-03). Modes arrive in M3; until then always active.
+// Events -> ModeLogic -> RuleEngine -> click (R-01..R-04, R-12, R-70..R-72).
 class SkipService : AccessibilityService() {
 
     private var rules: Rules? = null
     private val lastEventAt = HashMap<String, Long>()
     private val ignoreUntil = HashMap<String, Long>()
 
+    private lateinit var prefs: Prefs
+    private val handler = Handler(Looper.getMainLooper())
+    private var watchedInUse: Set<String>? = null
+
+    // R-72: one tick a minute, and only while an automatic activation can still time out.
+    private val idleTick = Runnable { prefs.onInput(ModeInput.IdleTick) }
+
+    private val onStateChanged: (ModeState) -> Unit = { state ->
+        applyWatched()
+        handler.removeCallbacks(idleTick)
+        if (state.active && state.autoActivated) handler.postDelayed(idleTick, IDLE_TICK_MS)
+    }
+
     override fun onServiceConnected() {
         super.onServiceConnected()
         isRunning = true
-        // R-04 / H5: always an explicit list, never null (= every app).
-        serviceInfo = serviceInfo.apply { packageNames = WATCHED }
+        prefs = Prefs.get(this)
+        // R-05: YouTube is the default list, but only until the owner picks one.
+        prefs.initWatchedIfUnset(DEFAULT_WATCHED.filter(::isInstalled).toSet())
+        prefs.addListener(onStateChanged)
         // R-50: rules are read once, here.
         rules = runCatching {
             Rules.parse(assets.open("rules.json").bufferedReader().use { it.readText() })
@@ -28,21 +45,33 @@ class SkipService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        if (!active) return // R-70: cheapest possible exit.
-        if (BuildConfig.DEBUG) captureTree(event)
-
-        val rules = rules ?: return
         val pkg = event?.packageName?.toString() ?: return
         val now = SystemClock.uptimeMillis()
-        if (now < (ignoreUntil[pkg] ?: 0L)) return                    // R-03 cooldown
         if (now - (lastEventAt[pkg] ?: 0L) < DEBOUNCE_MS) return      // R-03 debounce
         lastEventAt[pkg] = now
 
+        // R-12: the service only ever sees watched apps, so every event feeds the mode machine.
+        prefs.onInput(ModeInput.WatchedEvent(event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED))
+        if (!prefs.state.active) return                                // R-70: before touching any node
+        if (BuildConfig.DEBUG) captureTree(event)
+
+        val rules = rules ?: return
+        if (now < (ignoreUntil[pkg] ?: 0L)) return                     // R-03 cooldown
         val root = rootInActiveWindow ?: return                        // R-71
         if (root.packageName != pkg) return
         val target = RuleEngine.findTarget(rules, pkg, NodeInfoFinder(root)) ?: return
         if (click(target)) ignoreUntil[pkg] = now + COOLDOWN_MS
     }
+
+    // R-04 / H5: an explicit list, always — never null, which would mean every app.
+    private fun applyWatched() {
+        val watched = prefs.watched
+        if (watched == watchedInUse) return
+        watchedInUse = watched
+        serviceInfo = serviceInfo.apply { packageNames = watched.toTypedArray() }
+    }
+
+    private fun isInstalled(pkg: String) = packageManager.getLaunchIntentForPackage(pkg) != null
 
     // R-02 step 3: press the node, or tap its centre when nothing around it is clickable.
     private fun click(target: NodeView): Boolean {
@@ -71,29 +100,32 @@ class SkipService : AccessibilityService() {
     override fun onInterrupt() = Unit
 
     override fun onUnbind(intent: Intent?): Boolean {
-        isRunning = false
+        stop()
         return super.onUnbind(intent)
     }
 
     override fun onDestroy() {
-        isRunning = false
+        stop()
         super.onDestroy()
     }
 
-    companion object {
-        // M1: hardcoded. Comes from Prefs in M3.2 (R-05).
-        private val WATCHED = arrayOf("com.google.android.youtube")
+    private fun stop() {
+        isRunning = false
+        handler.removeCallbacks(idleTick)
+        if (::prefs.isInitialized) prefs.removeListener(onStateChanged)
+    }
 
+    companion object {
+        // R-05: the default list, used until the owner picks one.
+        private val DEFAULT_WATCHED = listOf("com.google.android.youtube")
+
+        private const val IDLE_TICK_MS = 60_000L // R-72
         private const val DEBOUNCE_MS = 100L   // R-03
         private const val COOLDOWN_MS = 1500L  // R-03
         private const val TAP_MS = 50L
         private const val CAPTURE_INTERVAL_MS = 1000L
 
         private var lastCapture = 0L
-
-        // M3.2 hands this over to ModeLogic (R-10..R-14).
-        @Volatile
-        var active = true
 
         // R-41: "enabled but not running" health check reads this.
         @Volatile
