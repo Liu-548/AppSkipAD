@@ -66,7 +66,11 @@ class SkipService : AccessibilityService() {
         if (now < (ignoreUntil[pkg] ?: 0L)) return                     // R-03 cooldown
         val root = rootInActiveWindow ?: return                        // R-71
         if (root.packageName != pkg) return
-        val target = RuleEngine.findTarget(rules, pkg, NodeInfoFinder(root)) ?: return
+        // R-71: the fallback walk is the expensive path and most events have no ad at all,
+        // so it gets to run once every couple of seconds, not ten times a second.
+        val mayScan = now - lastScanAt >= SCAN_INTERVAL_MS
+        if (mayScan) lastScanAt = now
+        val target = RuleEngine.findTarget(rules, pkg, NodeInfoFinder(root, mayScan)) ?: return
         if (click(target)) ignoreUntil[pkg] = now + COOLDOWN_MS
     }
 
@@ -133,8 +137,10 @@ class SkipService : AccessibilityService() {
         private const val COOLDOWN_MS = 1500L  // R-03
         private const val TAP_MS = 50L
         private const val CAPTURE_INTERVAL_MS = 1000L
+        private const val SCAN_INTERVAL_MS = 2000L
 
         private var lastCapture = 0L
+        private var lastScanAt = 0L
 
         /** R-41: switched on in system Accessibility settings (which is not the same as running). */
         fun isEnabled(context: Context): Boolean {
@@ -169,10 +175,30 @@ private class NodeInfoView(val node: AccessibilityNodeInfo) : NodeView {
     override val parent: NodeView? get() = node.parent?.let { NodeInfoView(it) }
 }
 
-private class NodeInfoFinder(private val root: AccessibilityNodeInfo) : NodeFinder {
+private class NodeInfoFinder(
+    private val root: AccessibilityNodeInfo,
+    private val mayScan: Boolean,
+) : NodeFinder {
     override fun byViewId(viewId: String): List<NodeView> =
         root.findAccessibilityNodeInfosByViewId(viewId).orEmpty().map { NodeInfoView(it) }
 
     override fun byText(text: String): List<NodeView> =
         root.findAccessibilityNodeInfosByText(text).orEmpty().map { NodeInfoView(it) }
+
+    // R-71: depth <= 30, <= 500 nodes, and lazy — the engine stops at the first hit.
+    override fun descendants(): Sequence<NodeView> = if (!mayScan) emptySequence() else sequence {
+        var seen = 0
+        suspend fun SequenceScope<NodeView>.walk(node: AccessibilityNodeInfo, depth: Int) {
+            if (depth > MAX_DEPTH || seen >= MAX_NODES) return
+            seen++
+            yield(NodeInfoView(node))
+            for (i in 0 until node.childCount) walk(node.getChild(i) ?: continue, depth + 1)
+        }
+        walk(root, 0)
+    }
+
+    private companion object {
+        const val MAX_DEPTH = 30
+        const val MAX_NODES = 500
+    }
 }

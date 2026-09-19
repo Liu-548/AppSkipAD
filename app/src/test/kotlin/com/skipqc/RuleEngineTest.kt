@@ -19,9 +19,11 @@ private class FakeNode(
 private class FakeFinder(
     private val byViewId: Map<String, List<NodeView>> = emptyMap(),
     private val byText: Map<String, List<NodeView>> = emptyMap(),
+    private val tree: List<NodeView> = emptyList(),
 ) : NodeFinder {
     override fun byViewId(viewId: String) = byViewId[viewId].orEmpty()
     override fun byText(text: String) = byText[text].orEmpty()
+    override fun descendants() = tree.asSequence()
 }
 
 private const val YT = "com.google.android.youtube"
@@ -107,6 +109,21 @@ class RuleEngineTest {
         val target = RuleEngine.findTarget(RULES, YT, finder)
         assertSame(label, target)
         assertTrue(!target!!.isClickable)
+    }
+
+    // R-02 step 3: survives a renamed id.
+    @Test
+    fun `a renamed skip id is still found by the fallback walk`() {
+        val renamed = FakeNode(viewId = "$YT:id/skip_ad_button_v2", isClickable = true)
+        val noise = FakeNode(viewId = "$YT:id/watch_player", isClickable = true)
+        assertSame(renamed, RuleEngine.findTarget(RULES, YT, FakeFinder(tree = listOf(noise, renamed))))
+    }
+
+    @Test
+    fun `the fallback walk ignores unrelated and invisible nodes`() {
+        val title = FakeNode(text = "Skip the line", isClickable = true)
+        val hidden = FakeNode(viewId = "$YT:id/skip_ad_button_v2", isVisible = false, isClickable = true)
+        assertNull(RuleEngine.findTarget(RULES, YT, FakeFinder(tree = listOf(title, hidden))))
     }
 
     @Test

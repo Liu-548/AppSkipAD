@@ -11,15 +11,21 @@ interface NodeView {
     val parent: NodeView?
 }
 
-/** What the accessibility service offers: the two framework lookups, nothing else. */
+/** What the accessibility service offers: the framework lookups, plus a bounded walk. */
 interface NodeFinder {
     fun byViewId(viewId: String): List<NodeView>
     fun byText(text: String): List<NodeView>
+
+    /** R-71: the implementation caps depth and node count. */
+    fun descendants(): Sequence<NodeView>
 }
 
 object RuleEngine {
 
     private const val MAX_ANCESTOR_STEPS = 3
+
+    /** R-02 step 4: the part of a skip button's id that has outlived every YouTube redesign. */
+    private const val SKIP_ID = "skip_ad"
 
     /**
      * The node to act on: the nearest clickable ancestor of a matching node, or the matching
@@ -39,6 +45,14 @@ object RuleEngine {
                 .firstOrNull { usable(it) && matches(it, wanted) }
                 ?.let { return clickTarget(it) }
         }
+
+        // 3. Last resort: any visible node whose id still looks like a skip button, so a
+        // renamed id (skip_ad_button_v2 and friends) does not need a new release. Deliberately
+        // id-only: matching loose *text* here would hit a video titled "Skip the line".
+        finder.descendants()
+            .firstOrNull { usable(it) && it.viewId?.contains(SKIP_ID, ignoreCase = true) == true }
+            ?.let { return clickTarget(it) }
+
         return null
     }
 

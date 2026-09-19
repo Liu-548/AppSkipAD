@@ -15,7 +15,8 @@ Out (v1): Windows, TV, popup/redirect ads, ads without a skip button, network ad
 - R-02 Matching order per event (implemented in pure `RuleEngine`):
   1. App rule `viewIds` via `findAccessibilityNodeInfosByViewId`.
   2. App rule `texts`, then `generic.texts`: candidates from `findAccessibilityNodeInfosByText`, keep only nodes whose trimmed `text` or `contentDescription` **equals** an entry (case-insensitive). Substring matches are rejected (avoids "Skip in 5", "Ads · 5").
-  3. Node must be `isVisibleToUser && isEnabled`. Click the node, or its nearest clickable ancestor (max 3 levels up). If none clickable: `dispatchGesture` tap at bounds center.
+  3. Fallback, so a renamed id does not need a new release: a bounded walk (R-71) for the first visible node whose `viewIdResourceName` contains `skip_ad`. Id only — loose *text* matching here would hit a video titled "Skip the line".
+  4. Node must be `isVisibleToUser && isEnabled`. Click the node, or its nearest clickable ancestor (max 3 levels up). If none clickable: `dispatchGesture` tap at bounds center.
 - R-03 After a click: ignore that package for 1500 ms. Process at most one event per 100 ms per package (debounce).
 - R-04 `serviceInfo.packageNames` = watched apps; update at runtime when the list changes. Empty list ⇒ service receives nothing.
 - R-05 Watched apps default: `com.google.android.youtube` if installed. User may add any installed launchable app.
@@ -81,7 +82,7 @@ State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoWithApps: Bool
 
 ## 9. Performance & robustness
 - R-70 First line of `onAccessibilityEvent`: if not active (after ModeLogic) ⇒ return, before touching any node.
-- R-71 Tree walks bounded: depth ≤ 30, ≤ 500 nodes. Null `rootInActiveWindow` ⇒ return.
+- R-71 Tree walks bounded: depth ≤ 30, ≤ 500 nodes. Null `rootInActiveWindow` ⇒ return. The R-02 fallback walk runs at most once every 2 s — most events carry no ad at all, and it is the expensive path.
 - R-72 Idle check (R-12 10-min rule) uses one `Handler.postDelayed` every 60 s only while auto-activated; no polling otherwise.
 - R-73 Release: `isMinifyEnabled=true`, `isShrinkResources=true`. Debug and release share `keystore/skipqc.keystore` so APKs update over each other. The key is never committed: file is gitignored, password lives in `local.properties` (`skipqc.keystorePassword`) locally and in GitHub Secrets (`KEYSTORE_B64`, `KEYSTORE_PASSWORD`) for CI.
 
