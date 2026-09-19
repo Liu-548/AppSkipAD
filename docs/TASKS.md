@@ -24,7 +24,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - [x] M4.2 `SkipTile` (R-21) and `StatusNotifier` (R-20), both driven by `Prefs.setActive`.
 
 ## M5 Main screen
-- [ ] M5.1 `Oem.kt` health checks + shortcuts (R-40..R-43).
+- [x] M5.1 `Oem.kt` health checks + shortcuts (R-40..R-43).
 - [ ] M5.2 Final `MainActivity` layout (R-30, R-31, R-22). Remove the temporary M1 button (debug dump stays, debug-only).
 
 ## M6 Release
@@ -46,3 +46,4 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · M3.2 · BootReceiver + service chay qua ModeLogic (R-70 thoat truoc khi cham node), danh sach app lay tu Prefs va cap nhat packageNames ngay khi doi (R-04/R-05), idle tick 60s chi khi dang tu bat (R-72). Prefs khong ghi dia cho lastWatchedEventAt (moi su kien deu doi). Chua thu tren may: cap da rut, se kiem tra lai khi cam vao.
 - 2026-09-19 · M4.1 · ic_logo.xml (glyph skip-next) + icon launcher thich ung dung lai chinh no qua <inset>, nen ca app chi co mot hinh. Da xem tren may that: nen do #D32F2F, glyph trang, ro.
 - 2026-09-19 · M4.2 · SkipTile (o thanh keo xuong) + StatusNotifier (icon trang thai, kem nut "Tat"), ca hai deu doc/ghi qua Prefs (R-14). Lint bat loi dung startActivityAndCollapse(Intent) — phai giu vi ban PendingIntent chi co tu API 34, da suppress dung dong do. Chua bam thu tren may: cap rut giua chung.
+- 2026-09-19 · M5.1 · Oem.kt: nhan dien hang may (R-40), 4 dong tinh trang Tro nang/Pin/Thong bao/Tu khoi dong (R-41), loi tat sang trang cai dat kem duong lui neu may khong co (R-42), goi y "cai dat bi han che" cho Android 13+ (R-43). Chua co man hinh hien thi — do la M5.2.

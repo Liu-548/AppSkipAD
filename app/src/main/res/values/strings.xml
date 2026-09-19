@@ -10,4 +10,15 @@
     <string name="tile_on">Đang bật</string>
     <string name="tile_off">Đã tắt</string>
     <string name="tile_no_permission">Chưa cấp quyền</string>
+    <string name="health_accessibility">Trợ năng</string>
+    <string name="health_battery">Pin</string>
+    <string name="health_notifications">Thông báo</string>
+    <string name="health_autostart">Tự khởi động</string>
+    <string name="health_on">Đã bật</string>
+    <string name="health_off">Chưa bật</string>
+    <string name="health_enabled_not_running">Đã bật nhưng không chạy — hãy tắt rồi bật lại trong Trợ năng</string>
+    <string name="health_battery_free">Không bị giới hạn</string>
+    <string name="health_battery_limited">Đang bị giới hạn — bấm để cho phép chạy nền</string>
+    <string name="health_check_yourself">Kiểm tra thủ công</string>
+    <string name="restricted_hint">Nếu không bật được: Thông tin ứng dụng → ⋮ → Cho phép cài đặt bị hạn chế</string>
 </resources>
