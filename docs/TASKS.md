@@ -7,7 +7,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - [x] M0.2 Push; confirm GitHub Actions is green and the permission check step passes.
 
 ## M1 Service + debug dump (goal: learn the real skip-button IDs)
-- [ ] M1.1 `SkipService` + `accessibility_config.xml` + manifest entries (R-04, R-60..R-63). Watched list hardcoded to YouTube for now. No clicking yet.
+- [x] M1.1 `SkipService` + `accessibility_config.xml` + manifest entries (R-04, R-60..R-63). Watched list hardcoded to YouTube for now. No clicking yet.
 - [ ] M1.2 `DebugDump.kt` + temporary debug button in MainActivity (R-80).
 - [ ] M1.3 STOP: ask owner to install, play a YouTube ad, press dump when "Skip"/"Bỏ qua" is visible, and send the file. Update `rules.json` from the dump, set `verified: true`.
 
@@ -35,3 +35,5 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 <!-- one line per finished task: date · task · note -->
 - 2026-09-19 · M0.1 · Build xanh voi AGP 9.3.3 / Gradle 9.5.0 / JDK 25; khong doi version. Lint: them `AppTheme` (`values/` = Theme.DeviceDefault, `values-v29/` = .DayNight) vi DayNight chi co tu API 29 > minSdk 26. `gradlew` da co exec bit.
 - 2026-09-19 · M0.2 · Day len https://github.com/Liu-548/AppSkipAD ; Actions xanh (run 35419166345), buoc Permission check pass, co artifact SkipQC-apk.
+- 2026-09-19 · Khoa ky · Da xoa keystore khoi repo, tao khoa moi (mat khau ngau nhien trong `local.properties`), CI lay tu secrets KEYSTORE_B64/KEYSTORE_PASSWORD; APK CI va APK may deu co van tay 62256be0...
+- 2026-09-19 · M1.1 · SkipService (chi ket noi, chua bam), accessibility_config.xml (R-62), manifest du 3 quyen R-60 + queries R-61; APK chi co dung 3 quyen do.

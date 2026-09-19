@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SkipQC</string>
+    <string name="accessibility_description">SkipQC chỉ đọc nội dung màn hình của những ứng dụng bạn chọn (mặc định: YouTube) để tìm nút \"Bỏ qua quảng cáo\" và tự bấm giúp bạn. Ứng dụng không có quyền truy cập Internet, không lưu và không gửi bất kỳ nội dung nào ra ngoài máy.</string>
 </resources>
