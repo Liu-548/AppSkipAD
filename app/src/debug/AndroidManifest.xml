@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- R-80: debug only. -->
+        <provider
+            android:name=".DumpProvider"
+            android:authorities="${applicationId}.dumps"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+    </application>
+</manifest>

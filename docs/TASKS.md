@@ -8,7 +8,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 
 ## M1 Service + debug dump (goal: learn the real skip-button IDs)
 - [x] M1.1 `SkipService` + `accessibility_config.xml` + manifest entries (R-04, R-60..R-63). Watched list hardcoded to YouTube for now. No clicking yet.
-- [ ] M1.2 `DebugDump.kt` + temporary debug button in MainActivity (R-80).
+- [x] M1.2 `DebugDump.kt` + temporary debug button in MainActivity (R-80).
 - [ ] M1.3 STOP: ask owner to install, play a YouTube ad, press dump when "Skip"/"Bỏ qua" is visible, and send the file. Update `rules.json` from the dump, set `verified: true`.
 
 ## M2 Skipping
@@ -37,3 +37,4 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · M0.2 · Day len https://github.com/Liu-548/AppSkipAD ; Actions xanh (run 35419166345), buoc Permission check pass, co artifact SkipQC-apk.
 - 2026-09-19 · Khoa ky · Da xoa keystore khoi repo, tao khoa moi (mat khau ngau nhien trong `local.properties`), CI lay tu secrets KEYSTORE_B64/KEYSTORE_PASSWORD; APK CI va APK may deu co van tay 62256be0...
 - 2026-09-19 · M1.1 · SkipService (chi ket noi, chua bam), accessibility_config.xml (R-62), manifest du 3 quyen R-60 + queries R-61; APK chi co dung 3 quyen do.
+- 2026-09-19 · M1.2 · DebugDump (do sau <=30, <=500 node theo R-71) + nut debug tam trong MainActivity; chia se file qua DumpProvider nam trong source set `debug` (khong dung AndroidX, ban release khong co provider lan quyen nao them).

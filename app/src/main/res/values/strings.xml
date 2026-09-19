@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">SkipQC</string>
     <string name="accessibility_description">SkipQC chỉ đọc nội dung màn hình của những ứng dụng bạn chọn (mặc định: YouTube) để tìm nút \"Bỏ qua quảng cáo\" và tự bấm giúp bạn. Ứng dụng không có quyền truy cập Internet, không lưu và không gửi bất kỳ nội dung nào ra ngoài máy.</string>
+    <string name="debug_dump">Xuất cây giao diện (debug)</string>
+    <string name="debug_dump_empty">Chưa có dữ liệu. Hãy bật SkipQC trong Trợ năng, mở YouTube một lát rồi quay lại bấm nút này.</string>
 </resources>
