@@ -2,8 +2,14 @@
 
 App Android tự bấm nút **"Bỏ qua quảng cáo"** trên YouTube và các app xem phim bạn chọn. Dự án cá nhân, không thu thập dữ liệu, **không có quyền Internet** (CI kiểm tra mỗi lần build).
 
+## Tải app
+Link tải thẳng bản mới nhất (mở bằng trình duyệt trên điện thoại):
+**https://github.com/Liu-548/AppSkipAD/releases/latest/download/app-release.apk**
+
+Hoặc vào https://github.com/Liu-548/AppSkipAD → mục **Releases** bên phải → bản trên cùng → mục **Assets** → bấm `app-release.apk`.
+
 ## Cài đặt
-1. Tải `app-release.apk` ở mục **Releases** và cài.
+1. Mở file `app-release.apk` vừa tải (Chrome hỏi "Vẫn tải xuống?" → chọn có; máy hỏi "Cho phép cài từ nguồn này?" → bật).
 2. Android 13+: vào *Thông tin ứng dụng SkipQC → ⋮ → Cho phép cài đặt bị hạn chế*.
 3. *Cài đặt → Trợ năng → SkipQC* → bật.
 4. Mở SkipQC, cho phép gửi thông báo (để có icon trạng thái), rồi xử lý các dòng ✗ trong khối trạng thái (Pin, Tự khởi động).
