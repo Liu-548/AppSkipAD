@@ -7,7 +7,7 @@
     {
       "package": "com.google.android.youtube",
       "label": "YouTube",
-      "verified": false,
+      "verified": true,
       "viewIds": ["skip_ad_button", "skip_ad_button_container"],
       "texts": ["Skip", "Skip ad", "Skip ads", "Bỏ qua", "Bỏ qua quảng cáo"]
     }

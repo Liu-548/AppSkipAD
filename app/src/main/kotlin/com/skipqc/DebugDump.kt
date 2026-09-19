@@ -36,13 +36,18 @@ object DebugDump {
         )
     }
 
-    private fun write(activity: Activity): File? {
-        val root = SkipService.lastRoot ?: return null
-        val dir = activity.getExternalFilesDir("dumps") ?: return null
+    /** Called by the service while the window is still alive. */
+    fun render(root: AccessibilityNodeInfo): String {
         val out = StringBuilder("package=").append(root.packageName).append('\n')
         walk(root, 0, out, intArrayOf(0))
+        return out.toString()
+    }
+
+    private fun write(activity: Activity): File? {
+        val tree = SkipService.lastTree ?: return null
+        val dir = activity.getExternalFilesDir("dumps") ?: return null
         val file = File(dir, "dump-${SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())}.txt")
-        file.writeText(out.toString())
+        file.writeText(tree)
         return file
     }
 
