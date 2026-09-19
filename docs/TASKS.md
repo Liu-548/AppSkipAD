@@ -25,7 +25,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 
 ## M5 Main screen
 - [x] M5.1 `Oem.kt` health checks + shortcuts (R-40..R-43).
-- [ ] M5.2 Final `MainActivity` layout (R-30, R-31, R-22). Remove the temporary M1 button (debug dump stays, debug-only).
+- [x] M5.2 Final `MainActivity` layout (R-30, R-31, R-22). Remove the temporary M1 button (debug dump stays, debug-only).
 
 ## M6 Release
 - [ ] M6.1 Release build config check (R-73); README install section verified against the real UI.
@@ -48,3 +48,5 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · M4.2 · SkipTile (o thanh keo xuong) + StatusNotifier (icon trang thai, kem nut "Tat"), ca hai deu doc/ghi qua Prefs (R-14). Lint bat loi dung startActivityAndCollapse(Intent) — phai giu vi ban PendingIntent chi co tu API 34, da suppress dung dong do. Chua bam thu tren may: cap rut giua chung.
 - 2026-09-19 · M5.1 · Oem.kt: nhan dien hang may (R-40), 4 dong tinh trang Tro nang/Pin/Thong bao/Tu khoi dong (R-41), loi tat sang trang cai dat kem duong lui neu may khong co (R-42), goi y "cai dat bi han che" cho Android 13+ (R-43). Chua co man hinh hien thi — do la M5.2.
 - 2026-09-19 · Bo tinh nang tu bat khi khoi dong may (chu du an yeu cau). Da go BootReceiver, quyen RECEIVE_BOOT_COMPLETED va o tick tuong ung; SPEC chuyen muc nay xuong phan "Later". Van giu: khoi dong lai may thi app luon TAT — service tu so sanh thoi diem boot, da thu that tren RMX3370 (truoc reboot bat, sau reboot tat) va khong can quyen nao.
+- 2026-09-19 · M5.2 · Man hinh chinh that (R-30/R-31/R-22): 4 dong tinh trang bam duoc, cong tac, o tick tu bat, danh sach app co icon (app co luat len dau), nut them o vao thanh keo xuong, xin quyen thong bao. Checkbox app chi phan ung khi nguoi dung cham (setOnCheckedChangeListener no ca khi code set -> co the xoa trang danh sach).
+- 2026-09-19 · Thu tren RMX3370 · Che do toi OK; tick "Tu bat khi mo ung dung da chon" -> mo YouTube thi app tu bat (active+autoActivated) va bo qua quang cao; thong bao trang thai hien dung (im lang, ghim, co nut Tat).

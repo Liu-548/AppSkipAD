@@ -21,4 +21,9 @@
     <string name="health_battery_limited">Đang bị giới hạn — bấm để cho phép chạy nền</string>
     <string name="health_check_yourself">Kiểm tra thủ công</string>
     <string name="restricted_hint">Nếu không bật được: Thông tin ứng dụng → ⋮ → Cho phép cài đặt bị hạn chế</string>
+    <string name="switch_active">Bỏ qua quảng cáo</string>
+    <string name="auto_with_apps">Tự bật khi mở ứng dụng đã chọn</string>
+    <string name="apps_header">Ứng dụng áp dụng</string>
+    <string name="add_tile">Thêm nút vào thanh kéo xuống</string>
+    <string name="add_tile_hint">Kéo thanh thông báo xuống → bấm biểu tượng chỉnh sửa → kéo ô SkipQC vào.</string>
 </resources>
