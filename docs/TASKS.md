@@ -4,7 +4,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 
 ## M0 Build baseline
 - [x] M0.1 Verify scaffold builds as-is (`assembleDebug`, `lintDebug`). Versions were set from AGP 9.3 release notes (AGP 9.3.3, Gradle 9.5.0, JDK 17, built-in Kotlin) but never compiled. Fix only what breaks; log changes. Ensure `gradlew` has the exec bit in git (`git update-index --chmod=+x gradlew`).
-- [ ] M0.2 Push; confirm GitHub Actions is green and the permission check step passes.
+- [x] M0.2 Push; confirm GitHub Actions is green and the permission check step passes.
 
 ## M1 Service + debug dump (goal: learn the real skip-button IDs)
 - [ ] M1.1 `SkipService` + `accessibility_config.xml` + manifest entries (R-04, R-60..R-63). Watched list hardcoded to YouTube for now. No clicking yet.
@@ -34,3 +34,4 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 ## Log
 <!-- one line per finished task: date · task · note -->
 - 2026-09-19 · M0.1 · Build xanh voi AGP 9.3.3 / Gradle 9.5.0 / JDK 25; khong doi version. Lint: them `AppTheme` (`values/` = Theme.DeviceDefault, `values-v29/` = .DayNight) vi DayNight chi co tu API 29 > minSdk 26. `gradlew` da co exec bit.
+- 2026-09-19 · M0.2 · Day len https://github.com/Liu-548/AppSkipAD ; Actions xanh (run 35419166345), buoc Permission check pass, co artifact SkipQC-apk.
