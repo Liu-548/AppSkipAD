@@ -18,8 +18,7 @@ Không cần đọc code. Tải APK từ GitHub Actions (tab Actions → lần c
 - [ ] Không bấm nhầm thứ khác trong YouTube (lướt feed, mở menu, xem Shorts vài phút).
 
 ## M3 — Chế độ
-- [ ] Mặc định: khởi động lại máy → app ở trạng thái TẮT.
-- [ ] Bật "Tự bật khi khởi động máy" → khởi động lại → app BẬT.
+- [ ] Khởi động lại máy → app ở trạng thái TẮT (luôn luôn; phần tự bật khi khởi động đã bỏ).
 - [ ] Bật "Tự bật khi mở ứng dụng đã chọn", tắt công tắc chính → mở YouTube → tự bật.
 - [ ] Đang trong YouTube tắt bằng tay → vẫn tắt cho tới khi thoát ra và mở lại YouTube.
 - [ ] Chơi game (không có trong danh sách) → máy không nóng/lag hơn bình thường.

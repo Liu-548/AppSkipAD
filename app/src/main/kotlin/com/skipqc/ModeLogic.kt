@@ -7,7 +7,6 @@ enum class OffReason { MANUAL, AUTO }
 data class ModeState(
     val active: Boolean = false,                 // R-10: a fresh install is off
     val offReason: OffReason = OffReason.AUTO,
-    val autoOnBoot: Boolean = false,
     val autoWithApps: Boolean = false,
     val lastWatchedEventAt: Long = 0L,
     /** Only an automatic activation may time out again (R-12, last bullet). */
@@ -34,9 +33,9 @@ object ModeLogic {
         is ModeInput.ManualSet ->
             state.copy(active = input.on, offReason = OffReason.MANUAL, autoActivated = false)
 
-        // R-11: by default this leaves the app off after every reboot.
+        // R-11: a reboot always leaves the app off. Turning it on at boot is postponed (SPEC §11).
         ModeInput.Boot ->
-            state.copy(active = state.autoOnBoot, offReason = OffReason.AUTO, autoActivated = false)
+            state.copy(active = false, offReason = OffReason.AUTO, autoActivated = false)
 
         is ModeInput.WatchedEvent -> onWatchedEvent(state, input.isWindowStateChange, nowMs)
 

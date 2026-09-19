@@ -29,15 +29,10 @@ class ModeLogicTest {
 
     // R-11
     @Test
-    fun `boot leaves the app off by default`() {
+    fun `a reboot always leaves the app off`() {
         val state = ModeState(active = true).after(ModeInput.Boot)
         assertFalse(state.active)
         assertEquals(OffReason.AUTO, state.offReason)
-    }
-
-    @Test
-    fun `boot turns the app on when auto on boot is set`() {
-        assertTrue(ModeState(autoOnBoot = true).after(ModeInput.Boot).active)
     }
 
     // R-12, bullet 1

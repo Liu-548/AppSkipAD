@@ -35,10 +35,18 @@ class Prefs private constructor(context: Context) {
         listeners -= listener
     }
 
+    /**
+     * R-11: a reboot puts the app back to off. Realme/Redmi never deliver BOOT_COMPLETED to a
+     * sideloaded app, so the service recognises a fresh boot itself. [bootAtMs] is its start.
+     */
+    fun applyBootIfNewSession(bootAtMs: Long) {
+        if (Math.abs(bootAtMs - sp.getLong(KEY_BOOT_AT, 0L)) < BOOT_SLACK_MS) return
+        sp.edit().putLong(KEY_BOOT_AT, bootAtMs).apply()
+        onInput(ModeInput.Boot)
+    }
+
     /** R-10/R-14: the switch and the tile both land here. */
     fun setActive(on: Boolean) = onInput(ModeInput.ManualSet(on))
-
-    fun setAutoOnBoot(on: Boolean) = write(state.copy(autoOnBoot = on))
 
     fun setAutoWithApps(on: Boolean) = write(ModeLogic.onAutoWithAppsChanged(state, on))
 
@@ -54,7 +62,6 @@ class Prefs private constructor(context: Context) {
         sp.edit()
             .putBoolean(KEY_ACTIVE, new.active)
             .putBoolean(KEY_OFF_MANUAL, new.offReason == OffReason.MANUAL)
-            .putBoolean(KEY_AUTO_BOOT, new.autoOnBoot)
             .putBoolean(KEY_AUTO_APPS, new.autoWithApps)
             .putBoolean(KEY_AUTO_ACTIVATED, new.autoActivated)
             .apply()
@@ -66,7 +73,6 @@ class Prefs private constructor(context: Context) {
     private fun read() = ModeState(
         active = sp.getBoolean(KEY_ACTIVE, false),
         offReason = if (sp.getBoolean(KEY_OFF_MANUAL, false)) OffReason.MANUAL else OffReason.AUTO,
-        autoOnBoot = sp.getBoolean(KEY_AUTO_BOOT, false),
         autoWithApps = sp.getBoolean(KEY_AUTO_APPS, false),
         autoActivated = sp.getBoolean(KEY_AUTO_ACTIVATED, false),
     )
@@ -74,10 +80,13 @@ class Prefs private constructor(context: Context) {
     companion object {
         private const val KEY_ACTIVE = "active"
         private const val KEY_OFF_MANUAL = "offManual"
-        private const val KEY_AUTO_BOOT = "autoOnBoot"
         private const val KEY_AUTO_APPS = "autoWithApps"
         private const val KEY_AUTO_ACTIVATED = "autoActivated"
         private const val KEY_WATCHED = "watched"
+        private const val KEY_BOOT_AT = "bootAt"
+
+        /** Clock corrections move the computed boot time by seconds, a reboot by minutes. */
+        private const val BOOT_SLACK_MS = 30_000L
 
         @Volatile
         private var instance: Prefs? = null

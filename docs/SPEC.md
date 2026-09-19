@@ -21,9 +21,9 @@ Out (v1): Windows, TV, popup/redirect ads, ads without a skip button, network ad
 - R-05 Watched apps default: `com.google.android.youtube` if installed. User may add any installed launchable app.
 
 ## 3. Modes (manual first; the two auto modes are opt-in, default OFF)
-State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoOnBoot: Boolean`, `autoWithApps: Boolean`, `watched: Set<String>`.
+State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoWithApps: Boolean`, `watched: Set<String>`.
 - R-10 **Manual (primary)**: QS tile or main-screen switch sets `active`; turning off sets `offReason=MANUAL`. Fresh install: `active=false`.
-- R-11 **Auto on boot**: on BOOT_COMPLETED, `active = autoOnBoot`, `offReason = AUTO`. So by default the app is OFF after every reboot.
+- R-11 **After a reboot**: `active = false`, `offReason = AUTO` — the app is always OFF after a reboot. No BOOT_COMPLETED and no boot permission: the service compares the current boot time with the stored one when it connects, because Realme/Redmi do not deliver that broadcast to a sideloaded app. Switching the app on at boot is postponed (§11).
 - R-12 **Auto with watched apps** (`autoWithApps=true`):
   - If `active=false` and `offReason=AUTO`: any event from a watched app ⇒ `active=true` (auto).
   - If `offReason=MANUAL`: re-activate only on `TYPE_WINDOW_STATE_CHANGED` from a watched app when ≥ 10 s passed since the last watched-app event (= user re-opened the app). Respects a manual OFF while the user stays in the app.
@@ -45,11 +45,10 @@ State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoOnBoot: Boolea
 - R-30 Top → bottom, one vertical scroll, framework widgets only:
   1. Status block (R-41): lines "Trợ năng", "Pin", "Thông báo", and on Realme/Redmi "Tự khởi động". Each line shows ✓/✗ and is tappable → opens the right settings screen.
   2. Switch "Bỏ qua quảng cáo" (= `active`, manual).
-  3. Checkbox "Tự bật khi khởi động máy" (R-11).
-  4. Checkbox "Tự bật khi mở ứng dụng đã chọn" (R-12).
-  5. Section "Ứng dụng áp dụng": checkbox list of installed launchable apps (label + icon), apps with a rule first, then alphabetical.
-  6. Button R-22.
-  7. Debug builds only: button "Xuất cây giao diện (debug)" (R-80).
+  3. Checkbox "Tự bật khi mở ứng dụng đã chọn" (R-12).
+  4. Section "Ứng dụng áp dụng": checkbox list of installed launchable apps (label + icon), apps with a rule first, then alphabetical.
+  5. Button R-22.
+  6. Debug builds only: button "Xuất cây giao diện (debug)" (R-80).
 - R-31 All UI strings Vietnamese in `res/values/strings.xml`. Follows system dark mode.
 
 ## 6. OEM & health
@@ -76,7 +75,7 @@ State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoOnBoot: Boolea
 - R-51 Updating rules = edit JSON + rebuild. `verified:false` means IDs were not yet confirmed from a real dump (R-80).
 
 ## 8. Manifest & privacy
-- R-60 Permissions — exactly these, nothing else: `RECEIVE_BOOT_COMPLETED`, `POST_NOTIFICATIONS`, `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`. Services protected by `BIND_ACCESSIBILITY_SERVICE` and `BIND_QUICK_SETTINGS_TILE`.
+- R-60 Permissions — exactly these, nothing else: `POST_NOTIFICATIONS`, `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`. Services protected by `BIND_ACCESSIBILITY_SERVICE` and `BIND_QUICK_SETTINGS_TILE`.
 - R-61 App listing via `<queries><intent>MAIN + LAUNCHER</intent></queries>`; never `QUERY_ALL_PACKAGES`.
 - R-62 `accessibility_config.xml`: event types `typeWindowStateChanged|typeWindowContentChanged`; flags `flagReportViewIds`; `canRetrieveWindowContent=true`; `canPerformGestures=true`; `notificationTimeout=100`; `isAccessibilityTool=false`; Vietnamese description explaining the app only reads the chosen apps and has no internet access.
 - R-63 `android:allowBackup="false"`.
@@ -91,4 +90,5 @@ State in Prefs: `active: Boolean`, `offReason: MANUAL|AUTO`, `autoOnBoot: Boolea
 - R-80 Debug builds: button exports the current accessibility tree of the most recent watched-app window (class, viewId, text, contentDescription, clickable, enabled, bounds; depth-indented) to `getExternalFilesDir("dumps")/dump-<time>.txt`, then opens the share sheet. Service keeps the last root snapshot reference only in debug builds. Used to confirm rule IDs.
 
 ## 11. Later (do NOT build now)
+Switching the app on automatically at boot (owner postponed it on 2026-09-19: Realme blocks BOOT_COMPLETED for sideloaded apps, so it needs the OEM autostart permission to work at all).
 Windows browser extension (content script clicking `.ytp-skip-ad-button`); Android TV build; tapping the skip button shown in YouTube's cast remote UI (Samsung TV workaround).

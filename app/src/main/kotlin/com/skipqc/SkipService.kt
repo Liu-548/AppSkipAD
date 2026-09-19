@@ -41,6 +41,7 @@ class SkipService : AccessibilityService() {
         super.onServiceConnected()
         isRunning = true
         prefs = Prefs.get(this)
+        prefs.applyBootIfNewSession(System.currentTimeMillis() - SystemClock.elapsedRealtime())
         // R-05: YouTube is the default list, but only until the owner picks one.
         prefs.initWatchedIfUnset(DEFAULT_WATCHED.filter(::isInstalled).toSet())
         prefs.addListener(onStateChanged)
