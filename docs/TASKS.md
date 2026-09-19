@@ -16,7 +16,7 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - [x] M2.2 Wire into `SkipService` with cooldown/debounce (R-01, R-03, R-70, R-71). Active hardcoded true for this task.
 
 ## M3 Modes
-- [ ] M3.1 `Prefs.kt` + `ModeLogic.kt` (R-10..R-14) with unit tests for every R-12 bullet.
+- [x] M3.1 `Prefs.kt` + `ModeLogic.kt` (R-10..R-14) with unit tests for every R-12 bullet.
 - [ ] M3.2 `BootReceiver` (R-11); service uses ModeLogic + idle handler (R-72); watched list from Prefs, live `packageNames` update (R-04, R-05).
 
 ## M4 Tile, status icon, logo
@@ -42,3 +42,4 @@ Each task ends with: build green + unit tests green + owner check in `docs/REVIE
 - 2026-09-19 · Sua loi M1.2 · Giu tham chieu node de dump sau la vo dung (roi app la node chet, khong con node con). Nay service render cay ra text ngay luc co su kien (debug, toi da 1 lan/giay) va chi nhan root dung goi cua app duoc theo doi.
 - 2026-09-19 · M2.1 · Rules.kt + RuleEngine.kt tren interface NodeView/NodeFinder (khong import android.*); 10 unit test xanh: trung viewId, trung text/desc chinh xac, loai "Skip in 5", loai node an/disabled, di len toi da 3 cap tim node bam duoc.
 - 2026-09-19 · M2.2 · Noi RuleEngine vao service: debounce 100ms + cooldown 1500ms moi goi, bam node hoac tap giua vung neu khong bam duoc. Thu that tren RMX3370: quang cao YouTube bi bo qua tu dong. Luu y khi do: `uiautomator dump` lam treo tam thoi moi dich vu tro nang khac nen dung no de kiem tra se ra ket qua sai.
+- 2026-09-19 · M3.1 · ModeLogic thuan (ModeState + 4 input, R-10..R-12) va Prefs la noi duy nhat ghi trang thai (R-14). 12 unit test phu tung gach dau dong R-12; tong 22 test xanh. Chua noi vao service/boot — do la M3.2.
